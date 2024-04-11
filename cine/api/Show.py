@@ -2,6 +2,7 @@ from dateutil import parser
 from datetime import datetime
 import time
 import requests
+import webbrowser
 
 from dotenv import load_dotenv
 import os
@@ -63,3 +64,6 @@ class Show:
 
     def __str__(self):
         return f"Show {self._id} - {self._film['title']} at {self._theater['name']} on {self._startDate}"
+
+    def createGoogleCalendarEvent(self):
+        webbrowser.open(f"https://www.google.com/calendar/render?action=TEMPLATE&text={self._title}&dates={self._startDate.strftime('%Y%m%dT%H%M%S')}/{self._endDate.strftime('%Y%m%dT%H%M%S')}&location={self._theater['name']}")

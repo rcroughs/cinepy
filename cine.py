@@ -35,6 +35,7 @@ def main(args) -> int:
     next_day = current_date + timedelta(days=1)
     next_day = next_day.replace(hour=0, minute=0, second=0, microsecond=0)
     showtimes = Showtimes(args.cities, dateBegin=current_date, dateEnd=next_day, limit=50)
+    showtimes.getShowtimes()[0].createGoogleCalendarEvent()
     if args.account is not None:
         watchlist = WatchList(args.account)
         display_showtimes_with_wathlist(showtimes, watchlist)
