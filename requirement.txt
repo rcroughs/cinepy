@@ -1,0 +1,5 @@
+requests
+dateutil
+dotenv
+bs4
+tqdm
