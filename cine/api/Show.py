@@ -61,6 +61,9 @@ class Show:
 
     def getTheater(self) -> dict:
         return self._theater["name"]
+    
+    def getSlug(self) -> str:
+        return self._slug
 
     def __str__(self):
         return f"Show {self._id} - {self._film['title']} at {self._theater['name']} on {self._startDate}"

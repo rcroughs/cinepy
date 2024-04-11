@@ -3,14 +3,16 @@ from datetime import datetime
 import time
 from .Show import Show
 from .k_cities import k_cities
+from .Theater import Theater
 
 class Showtimes:
-    def __init__(self, cities: list[str], dateBegin: datetime, dateEnd: datetime, limit: int) -> None:
+    def __init__(self, cities: list[str], dateBegin: datetime, dateEnd: datetime, limit: int, theaters: list[Theater]) -> None:
         self._url = "https://cinevillepass.be/api/graphql"
         self._cities = cities
         self._dateBegin = dateBegin
         self._dateEnd = dateEnd
         self._limit = limit
+        self._theaters = theaters
         self._showtimes = self.fetchShowtimes()
 
     def fetchShowtimes(self) -> list[Show]:
@@ -22,7 +24,8 @@ class Showtimes:
                                                                                         "startDate": {
                                                                                             "gte": self.local2utc(self._dateBegin).isoformat(),
                                                                                             "lte": self.local2utc(self._dateEnd).isoformat()
-                                                                                        }
+                                                                                        },
+                                                                                        "venueId": {"in": [theater.getID() for theater in self._theaters]}
                                                                                     },
                                                                                     "page": {
                                                                                         "limit": self._limit
