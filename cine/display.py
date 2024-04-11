@@ -39,5 +39,5 @@ def display_showtimes(showtimes):
     counter = 1
     max_title_width, max_theater_width, max_date_width = getWidths(showtimes)
     for showtime in showtimes.getShowtimes():
-        println(False, counter, showtime, max_title_width + 7, max_theater_width + 7, max_date_width, showtimes.getShowtimes())
+        println(False, counter, showtime, max_title_width + 7, max_theater_width + 7, max_date_width, len(showtimes.getShowtimes()))
         counter += 1
