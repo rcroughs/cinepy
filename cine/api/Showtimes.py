@@ -25,12 +25,10 @@ class Showtimes:
                                                                                         },
                                                                                     }
                                                                                 })
+        if r.status_code != 200:
+            raise Exception(f"Error {r.status_code}: {r.text}")
         json = r.json()
         showList = []
-        if 'errors' in json:
-            print(json['errors'])
-            return showList
-        
         for show in json['data']['showtimes']['data']:
             showList.append(Show(show))
         return showList
