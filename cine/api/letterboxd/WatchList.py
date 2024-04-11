@@ -24,7 +24,7 @@ class WatchList:
         self.loadFromFile(watchlist_file, self._cached_watchlist)
         
         number_of_pages = int(soup.find_all("li", attrs={"class": "paginate-page"})[-1].text)
-        with tqdm(total=total_movies) as pbar:
+        with tqdm(total=total_movies, desc=f"🚀 Fetching watchlist for {self._account_name}") as pbar:
             for page in range(1, number_of_pages):
                 if page > 1:
                     response = requests.get(f"{watchlist_url}page/{page}/")

@@ -66,4 +66,4 @@ class Show:
         return f"Show {self._id} - {self._film['title']} at {self._theater['name']} on {self._startDate}"
 
     def createGoogleCalendarEvent(self):
-        webbrowser.open(f"https://www.google.com/calendar/render?action=TEMPLATE&text={self._title}&dates={self._startDate.strftime('%Y%m%dT%H%M%S')}/{self._endDate.strftime('%Y%m%dT%H%M%S')}&location={self._theater['name']}")
+        webbrowser.open(f"https://www.google.com/calendar/render?action=TEMPLATE&text={self._title}&dates={self._startDate.strftime('%Y%m%dT%H%M%S')}/{self._endDate.strftime('%Y%m%dT%H%M%S')}&location={self._theater['address']['street']+' '+self._theater['address']['houseNumber']+' '+self._theater['address']['postalCode']+' '+self._theater['address']['city']}")
