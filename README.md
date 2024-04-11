@@ -1,2 +1,2 @@
-# cinepy
-Tool for Cinepass Belgium
+# Cinepy
+
