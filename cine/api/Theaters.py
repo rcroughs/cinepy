@@ -25,3 +25,9 @@ class Theaters:
 
     def getTheaters(self) -> list[Theater]:
         return self._theaters
+
+    def getTheater(self, id: str) -> Theater:
+        for theater in self._theaters:
+            if theater.getID() == id:
+                return theater
+        return None

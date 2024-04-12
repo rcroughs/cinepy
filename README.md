@@ -6,7 +6,7 @@ To make the program run, you have to get a [TMDB](https://www.themoviedb.org/) k
 
 ## Usage
 ```
-usage: cine.py [-h] [-a ACCOUNT] [-d DAYS] [-c CITIES [CITIES ...]] [-l LIMIT] [-t THEATER [THEATER ...]]
+usage: cine.py [-h] [-a ACCOUNT] [-d DAYS] [-p PERIOD] [-c CITIES [CITIES ...]] [-l LIMIT] [-t THEATER [THEATER ...]]
 
 Display showtimes of Cinevillepass
 
@@ -15,6 +15,8 @@ options:
   -a ACCOUNT, --account ACCOUNT
                         Letterboxd account name
   -d DAYS, --days DAYS  Days offset for the query
+  -p PERIOD, --period PERIOD
+                        Period of time to query in days
   -c CITIES [CITIES ...], --cities CITIES [CITIES ...]
                         Cities to query
   -l LIMIT, --limit LIMIT

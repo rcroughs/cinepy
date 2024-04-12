@@ -19,3 +19,6 @@ class Theater:
     
     def getName(self) -> str:
         return self._name
+
+    def getAddress(self) -> dict:
+        return self._address

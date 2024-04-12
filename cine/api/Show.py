@@ -11,18 +11,12 @@ load_dotenv()
 
 class Show:
     def __init__(self, json_object):
-        self._id = json_object['id']
-        self._film = json_object['film']
         self._slug = json_object['film']['slug']
         self._title = json_object['film']['title']
         self._releaseYear = json_object['film']['releaseYear']
-        self._theater = json_object['theater']
+        self._theater_id = json_object['theater']['id']
         self._startDate = self.utc2local(parser.isoparse(json_object['startDate'])) if json_object['startDate'] != None else None
         self._endDate = self.utc2local(parser.isoparse(json_object['endDate'])) if json_object['endDate'] != None else None
-        self._subtitles = json_object['subtitles']
-        self._ticketingUrl = json_object['ticketingUrl']
-        self._specials = json_object['specials']
-        self._customSpecials = json_object['customSpecials']
         self.fetchTMDBID()
 
     def utc2local(self, utc):
@@ -59,14 +53,21 @@ class Show:
     def getEndDate(self) -> datetime:
         return self._endDate
 
-    def getTheater(self) -> dict:
-        return self._theater["name"]
+    def getTheaterId(self) -> str:
+        return self._theater_id
     
     def getSlug(self) -> str:
         return self._slug
 
     def __str__(self):
-        return f"Show {self._id} - {self._film['title']} at {self._theater['name']} on {self._startDate}"
+        return f"{self._film['title']} at {self._theater['name']} on {self._startDate}"
 
-    def createGoogleCalendarEvent(self):
-        webbrowser.open(f"https://www.google.com/calendar/render?action=TEMPLATE&text={self._title}&dates={self._startDate.strftime('%Y%m%dT%H%M%S')}/{self._endDate.strftime('%Y%m%dT%H%M%S')}&location={self._theater['address']['street']+' '+self._theater['address']['houseNumber']+' '+self._theater['address']['postalCode']+' '+self._theater['address']['city']}")
+    def createGoogleCalendarEvent(self, theaterList) -> str:
+        if self._endDate == None:
+            return ""
+        theater = theaterList.getTheater(self._theater_id)
+        theaterStreet = theater.getAddress()['street']
+        theaterHouseNumber = theater.getAddress()['houseNumber']
+        theaterPostalCode = theater.getAddress()['postalCode']
+        theaterCity = theater.getAddress()['city']
+        return f"https://www.google.com/calendar/render?action=TEMPLATE&text={self._title}&dates={self._startDate.strftime('%Y%m%dT%H%M%S')}/{self._endDate.strftime('%Y%m%dT%H%M%S')}&location={theaterStreet+' '+ theaterHouseNumber +' '+ theaterPostalCode +' '+ theaterCity}"
