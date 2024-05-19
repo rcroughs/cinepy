@@ -6,17 +6,18 @@ from .k_cities import k_cities
 from .Theater import Theater
 
 class Showtimes:
-    def __init__(self, cities: list[str], dateBegin: datetime, dateEnd: datetime, theaters: list[Theater], limit=0) -> None:
+    def __init__(self, cities: list[str], dateBegin: datetime, dateEnd: datetime, theaters: list[Theater], limit=0, minimal=False) -> None:
         self._url = "https://cinevillepass.be/api/graphql"
         self._cities = cities
         self._dateBegin = dateBegin
         self._dateEnd = dateEnd
         self._limit = limit
         self._theaters = theaters
+        self._minimal = minimal
         self._showtimes = self.fetchShowtimes()
 
     def fetchShowtimes(self) -> list[Show]:
-        print(f"🚀 Fetching showtimes from {self._dateBegin} to {self._dateEnd}")
+        print(f"🚀 Fetching showtimes from {self._dateBegin} to {self._dateEnd}") if not self._minimal else None
         r = requests.post(url = self._url, json = {"operationName": "showtimes", "query": "query showtimes(  $filters: ShowtimesFilters  $collections: [CollectionFilter!]  $page: CursorPagination  $sort: ShowtimesSort  $locale: String) {  showtimes(    filters: $filters    collections: $collections    page: $page    sort: $sort    locale: $locale  ) {    totalCount    data {      startDate      endDate      film {        id        slug        title        releaseYear      }      theater {        id      }    }    count  }}", 
                                                                                 "variables" : {
                                                                                     "collections": [{"collectionGroupId": "cities", "collectionId": city, "id": str(k_cities[city])} for city in self._cities],

@@ -4,11 +4,12 @@ from .Movie import Movie
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 
-watchlist_file = ".wl"
+watchlist_pre = ".wl_"
 
 class WatchList:
-    def __init__(self, account_name: str) -> None:
+    def __init__(self, account_name: str, minimal=False) -> None:
         self._account_name = account_name
+        self._minimal = minimal
         self._watchlist = self.fetchWatchList()
         
     def fetchWatchList(self) -> list[list[str]]:
@@ -21,11 +22,11 @@ class WatchList:
             total_movies = int(movies.text.split()[0])
 
         self._cached_watchlist = []
-        self.loadFromFile(watchlist_file, self._cached_watchlist)
+        self.loadFromFile(watchlist_pre + self._account_name, self._cached_watchlist)
         
         number_of_pages = int(soup.find_all("li", attrs={"class": "paginate-page"})[-1].text)
-        with tqdm(total=total_movies, desc=f"🚀 Fetching watchlist for {self._account_name}") as pbar:
-            for page in range(1, number_of_pages):
+        with tqdm(total=total_movies, desc=f"🚀 Fetching watchlist for {self._account_name}", disable=(True if self._minimal else False)) as pbar:
+            for page in range(1, number_of_pages + 1):
                 if page > 1:
                     response = requests.get(f"{watchlist_url}page/{page}/")
                     soup = BeautifulSoup(response.text, "html.parser")
@@ -44,7 +45,7 @@ class WatchList:
                         self._watchlist.append(Movie().loadFromInternet(movie))
                         pbar.update(1)
 
-        self.saveWatchList(watchlist_file)
+        self.saveWatchList(watchlist_pre + self._account_name)
         return self._watchlist
     
     def loadFromFile(self, filename: str, list) -> None:

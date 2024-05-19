@@ -7,6 +7,7 @@ To make the program run, you have to get a [TMDB](https://www.themoviedb.org/) k
 ## Usage
 ```
 usage: cine.py [-h] [-a ACCOUNT] [-d DAYS] [-p PERIOD] [-c CITIES [CITIES ...]] [-l LIMIT] [-t THEATER [THEATER ...]]
+               [-i] [-f] [-m]
 
 Display showtimes of Cinevillepass
 
@@ -23,7 +24,20 @@ options:
                         Limit of showtimes to fetch
   -t THEATER [THEATER ...], --theater THEATER [THEATER ...]
                         Theater to query
+  -i, --ignore          Ignore the movies that you have already seen
+  -f, --full            Display full showtimes
+  -m, --minimal         Minimal Display (for fuzzy finding for example)
 ```
+### Examples
+- Find all the unseen movies of the week in Namur:
+```bash
+python3 cine.py -a username -f -c namur -i
+```
+- Fuzzy find a movie in the showtimes of the week:
+```bash
+python3 cine.py -m -f | fzf
+```
+
 
 ### Dependencies
 All the dependencies are shown in the file `requirement.txt`.
