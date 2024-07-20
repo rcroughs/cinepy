@@ -32,7 +32,6 @@ class Theaters:
         if r.status_code != 200:
             raise Exception(f"Error {r.status_code}: {r.text}")
         json = r.json()
-        print(json)
         theaterList = []
         for theater in json["data"]["theaters"]["data"]:
             theaterList.append(Theater(theater))
